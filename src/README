@@ -1,0 +1,27 @@
+OUTPUT OF `java -version`
+java version "1.8.0_112"
+Java(TM) SE Runtime Environment (build 1.8.0_112-b16)
+Java HotSpot(TM) 64-Bit Server VM (build 25.112-b16, mixed mode)
+
+- Tested on my Mac running High Sierra (10.13.1)
+- I completed all parts of the assignment
+
+
+
+Server Overview:
+	It is a multithreaded desgin. In summary we have the main thread always sitting on the `accept()` call to accept incoming client connections
+	and when a client connection is recieved, it's information(socket,key) is tossed into an object(WorkerInfo) and this obejct is tossed into
+	a hashmap, keyed by the key the client just sent. When the complimentary client connects (the second connection with the same key), we add
+	the second connection details into the WorkerInfo object and the main thread starts a new thread with this WorkerInfo object passed into it.
+	This new thread handles the data transfer, seperate from the main thread. 
+
+	How the worker thread works:
+	- tells the uploader "hey man send your data"
+	- receives the data from the uploader
+	- directly sends this data to the downloader
+
+Client OverviewL:
+	Nothing complicated, if its an uploader it'll tell that to the server, wait until the server responds telling it to upload data, it'll read in 
+	the data from the file specified, send the data and then close the connection.
+	If its a downloader, it'll tell that to the server, and then wait until the stream of data starts coming in which it then writes to the 
+	file thats been specified.
